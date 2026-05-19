@@ -10,6 +10,7 @@ import json
 from http.server import HTTPServer, BaseHTTPRequestHandler
 import time
 import io
+import os
 
 try:
     import mediapipe as mp
@@ -22,9 +23,17 @@ except ImportError:
 
 # Load model
 try:
-    clf = joblib.load('attention_model_trained.pkl')
-    scaler = joblib.load('attention_scaler_trained.pkl')
-    print("✓ Model loaded")
+    # Get the directory where this script is located
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    parent_dir = os.path.dirname(script_dir)
+    
+    # Look for models in parent/models/ folder
+    model_path = os.path.join(parent_dir, 'models', 'attention_model_trained.pkl')
+    scaler_path = os.path.join(parent_dir, 'models', 'attention_scaler_trained.pkl')
+    
+    clf = joblib.load(model_path)
+    scaler = joblib.load(scaler_path)
+    print("✓ Model loaded from:", model_path)
 except Exception as e:
     print(f"ERROR: Models not found - {e}")
     exit(1)
@@ -120,6 +129,7 @@ tracker = EyeTracker()
 cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+cap.set(cv2.CAP_PROP_FPS, 30)
 
 current_state = 0
 current_confidence = 0.0
@@ -157,23 +167,22 @@ def capture_frames():
             except Exception as e:
                 pass
         
-        # Add UI overlay
+        # Add UI overlay (smaller, non-blocking)
         state_map = {0: 'ATTENTIVE', 1: 'DISTRACTED', 2: 'SLEEPY'}
         colors = {0: (0, 255, 255), 1: (255, 0, 255), 2: (0, 0, 255)}
         color = colors.get(current_state, (255, 255, 255))
         
-        cv2.rectangle(frame, (10, 10), (300, 110), (0, 0, 0), -1)
-        cv2.rectangle(frame, (10, 10), (300, 110), color, 2)
-        cv2.putText(frame, state_map[current_state], (20, 50),
-                   cv2.FONT_HERSHEY_DUPLEX, 1.8, color, 2)
-        cv2.putText(frame, f"CONF: {current_confidence:.2f}", (20, 85),
-                   cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 1)
+        # Small text overlay in top-left corner (doesn't block face)
+        cv2.putText(frame, state_map[current_state], (10, 30),
+                   cv2.FONT_HERSHEY_DUPLEX, 1.2, color, 2)
+        cv2.putText(frame, f"CONF: {current_confidence:.2f}", (10, 55),
+                   cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 255, 255), 1)
         
         cv2.putText(frame, f"FPS: {fps}", (10, frame.shape[0] - 10),
                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 1)
         
-        # Encode frame
-        _, buffer = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 85])
+        # Encode frame (lower quality = higher FPS)
+        _, buffer = cv2.imencode('.jpg', frame, [cv2.IMWRITE_JPEG_QUALITY, 60])
         current_frame = frame
         current_frame_encoded = buffer.tobytes()
         
@@ -186,6 +195,7 @@ def capture_frames():
             fps = frame_num
             frame_num = 0
             last_fps_time = now
+
 
 # Start capture thread
 capture_thread = threading.Thread(target=capture_frames, daemon=True)
@@ -201,10 +211,16 @@ class Handler(BaseHTTPRequestHandler):
             self.end_headers()
             
             try:
-                with open('attention_monitor_cyberpunk.html', 'rb') as f:
+                # HTML is in same folder as this script (src/)
+                current_dir = os.path.dirname(os.path.abspath(__file__))
+                html_file = os.path.join(current_dir, 'attention_monitor_cyberpunk.html')
+                
+                with open(html_file, 'rb') as f:
                     self.wfile.write(f.read())
-            except:
+                    print(f"✓ Loaded HTML from: {html_file}")
+            except Exception as e:
                 self.wfile.write(b'<h1>HTML file not found</h1>')
+                print(f"✗ Error: {e}")
         
         elif path == '/api/data':
             self.send_response(200)
