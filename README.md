@@ -1,4 +1,4 @@
-# 🎮 Attention Monitoring System v2.0
+# Attention Monitoring System
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -8,15 +8,15 @@ Real-time **attention detection system** using **deep learning** and **eye-track
 
 ---
 
-## ✨ Key Features
+## Key Features
 
-### 🔍 Real-time Eye Tracking
+### Real-time Eye Tracking
 - **MediaPipe Face Mesh** - 468 facial landmarks
 - **Eye Aspect Ratio (EAR)** - Accurate eye detection
 - **Gaze Direction** - Head/eye movement tracking
 - **30+ FPS** - Real-time processing on Jetson
 
-### 🧠 Machine Learning Classification
+### Machine Learning Classification
 - **Random Forest Classifier** - 200 trees, 18 features
 - **92%+ Accuracy** - High reliability
 - **3-State Detection**:
@@ -24,7 +24,7 @@ Real-time **attention detection system** using **deep learning** and **eye-track
   - 🔴 **DISTRACTED** - Looking away
   - 🔵 **SLEEPY** - Eyes closed
 
-### 📊 Live Dashboard
+### Live Dashboard
 - **Real-time Camera Feed** - With eye keypoints
 - **Confidence Meter** - Model certainty indicator
 - **System Metrics** - FPS, frames, status
@@ -32,7 +32,7 @@ Real-time **attention detection system** using **deep learning** and **eye-track
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Requirements
 ```
