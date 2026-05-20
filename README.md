@@ -73,7 +73,7 @@ attention_monitor_v2/
 
 ---
 
-## 🎯 How It Works
+## How It Works
 
 ### Processing Pipeline
 ```
@@ -96,7 +96,7 @@ Stream to browser via HTTP
 
 ---
 
-## 📊 Model Performance
+## Model Performance
 
 | Metric | Value |
 |--------|-------|
@@ -109,7 +109,7 @@ Stream to browser via HTTP
 
 ---
 
-## 🎮 User Interface
+## User Interface
 
 ### Layout
 - **Left Panel** - Neural Assessment (state, confidence, metrics)
@@ -124,7 +124,7 @@ Stream to browser via HTTP
 
 ---
 
-## 🔧 API Endpoints
+## API Endpoints
 
 ```
 GET  /                    → HTML interface
@@ -134,13 +134,13 @@ GET  /stream.jpg         → JPEG stream
 
 ---
 
-## 📈 Feature Vector (18D)
+## Feature Vector (18D)
 
 Eye Aspect Ratios, Gaze Direction, Face Position, Eye Metrics, Nose Position, Inter-eye Distance
 
 ---
 
-## 🎓 Training Data
+## Training Data
 
 - 150 ATTENTIVE samples
 - 150 DISTRACTED samples
@@ -149,7 +149,7 @@ Eye Aspect Ratios, Gaze Direction, Face Position, Eye Metrics, Nose Position, In
 
 ---
 
-## 🎯 Use Cases
+## Use Cases
 
 ✅ Driver drowsiness detection
 ✅ Student engagement monitoring
@@ -159,7 +159,7 @@ Eye Aspect Ratios, Gaze Direction, Face Position, Eye Metrics, Nose Position, In
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### No Camera?
 ```bash
@@ -175,7 +175,7 @@ kill -9 <PID>
 
 ---
 
-## 📚 Tech Stack
+## Tech Stack
 
 - **Eye Tracking**: MediaPipe Face Mesh
 - **ML**: scikit-learn RandomForest
@@ -186,7 +186,7 @@ kill -9 <PID>
 
 ---
 
-## 🔐 Privacy
+## Privacy
 
 ✅ Local processing only
 ✅ No cloud upload
@@ -195,14 +195,14 @@ kill -9 <PID>
 
 ---
 
-## 📖 Documentation
+## Documentation
 
 - **[SETUP.md](SETUP.md)** - Installation guide
 - **[requirements.txt](requirements.txt)** - Dependencies
 
 ---
 
-## 📄 License
+## License
 
 MIT License
 
